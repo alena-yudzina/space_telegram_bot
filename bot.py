@@ -8,8 +8,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 fetch_nasa_apod_images()
-'''fetch_nasa_epic_images()
-fetch_spacex_last_launch()'''
 bot = telegram.Bot(token=os.environ['BOT_TOKEN'])
 photos = os.listdir('images')
 while True:
