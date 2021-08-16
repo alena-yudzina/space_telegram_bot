@@ -1,6 +1,6 @@
 import requests
 from datetime import datetime
-from fetch_spacex import get_extension, download_image
+from image_handling import get_extension, download_image
 
 
 def fetch_nasa_apod_images():
@@ -16,8 +16,8 @@ def fetch_nasa_apod_images():
 
     links = [dct['url'] for dct in response.json()]
 
-    for number, link in enumerate(links):
-        path = 'images/apod{0}{1}'.format(number + 1, get_extension(link))
+    for number, link in enumerate(links, start=1):
+        path = 'images/apod{0}{1}'.format(number, get_extension(link))
         download_image(link, path)
 
 
@@ -33,7 +33,7 @@ def fetch_nasa_epic_images():
 
     photos_info = response.json()
 
-    for number, photo_info in enumerate(photos_info):
+    for number, photo_info in enumerate(photos_info, start=1):
         datetime_str = photo_info['date']
         datetime_obj = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
         link = 'https://api.nasa.gov/EPIC/archive/natural/{0}/{1}/{2}/png/{3}.png?api_key={4}'.format(
@@ -43,5 +43,5 @@ def fetch_nasa_epic_images():
             photo_info['image'],
             payload['api_key']
         )
-        path = 'images/earth{0}.png'.format(number + 1)
+        path = 'images/earth{0}.png'.format(number)
         download_image(link, path)

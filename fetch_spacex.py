@@ -1,18 +1,5 @@
 import requests
-from pathlib import Path
-from urllib.parse import urlsplit
-
-
-def get_extension(link):
-    path = urlsplit(link).path
-    return Path(path).suffix
-
-
-def download_image(link, path):
-    response = requests.get(link)
-    Path(path).parent.mkdir(parents=True, exist_ok=True) 
-    with open(path, 'wb') as img:
-        img.write(response.content)
+from image_handling import download_image
 
 
 def fetch_spacex_last_launch():
@@ -23,6 +10,6 @@ def fetch_spacex_last_launch():
 
     links = response.json()[13]['links']['flickr_images']
 
-    for number, link in enumerate(links):
-        path = 'images/spacex{0}.jpg'.format(number + 1)
+    for number, link in enumerate(links, start=1):
+        path = 'images/spacex{0}.jpg'.format(number)
         download_image(link, path)
