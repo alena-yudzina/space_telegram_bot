@@ -1,20 +1,24 @@
 import requests
+import os
 from datetime import datetime
 from image_handling import get_extension, download_image
+from dotenv import load_dotenv
 
 
-def fetch_nasa_apod_images():
+def fetch_nasa_apod_images(count=3):
+
     url = 'https://api.nasa.gov/planetary/apod'
 
+    load_dotenv()
     payload = {
-        'api_key': 'gbkaDY0eUaTXykPqC8gaKsBxruzU65uHgd29g0DG',
-        'count': 3,
+        'api_key': os.environ['NASA_TOKEN'],
+        'count': count,
     }
 
     response = requests.get(url, params=payload)
     response.raise_for_status()
 
-    links = [dct['url'] for dct in response.json()]
+    links = [apod['url'] for apod in response.json()]
 
     for number, link in enumerate(links, start=1):
         path = 'images/apod{0}{1}'.format(number, get_extension(link))
@@ -24,8 +28,9 @@ def fetch_nasa_apod_images():
 def fetch_nasa_epic_images():
     url = 'https://api.nasa.gov/EPIC/api/natural'
 
+    load_dotenv()
     payload = {
-        'api_key': 'gbkaDY0eUaTXykPqC8gaKsBxruzU65uHgd29g0DG',
+        'api_key': os.environ['NASA_TOKEN'],
     }
 
     response = requests.get(url, params=payload)
