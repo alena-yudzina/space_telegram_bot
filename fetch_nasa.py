@@ -9,7 +9,6 @@ def fetch_nasa_apod_images(count=3):
 
     url = 'https://api.nasa.gov/planetary/apod'
 
-    load_dotenv()
     payload = {
         'api_key': os.environ['NASA_TOKEN'],
         'count': count,
