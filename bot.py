@@ -15,10 +15,11 @@ def main():
     photos = os.listdir('images')
     while True:
         for photo in photos:
-            bot.send_photo(
-                chat_id=os.environ['CHAT_ID'],
-                photo=open('images/{}'.format(photo), 'rb')
-            )
+            with open('images/{}'.format(photo), 'rb') as photo:
+                bot.send_photo(
+                    chat_id=os.environ['CHAT_ID'],
+                    photo=photo
+                )
             time.sleep(86400)
 
 
