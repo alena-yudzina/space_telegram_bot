@@ -39,10 +39,8 @@ def fetch_nasa_epic_images(images_folder, token):
     for number, photo_info in enumerate(photos_info, start=1):
         datetime_str = photo_info['date']
         datetime_obj = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
-        link = 'https://api.nasa.gov/EPIC/archive/natural/{0}/{1}/{2}/png/{3}.png?api_key={4}'.format(
-            datetime_obj.year,
-            str(datetime_obj.month).zfill(2),
-            str(datetime_obj.day).zfill(2),
+        link = 'https://api.nasa.gov/EPIC/archive/natural/{0}/png/{1}.png?api_key={2}'.format(
+            datetime_obj.strftime('%Y/%m/%d'),
             photo_info['image'],
             payload['api_key']
         )
