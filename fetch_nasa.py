@@ -5,7 +5,7 @@ from image_handling import get_extension, download_image
 from dotenv import load_dotenv
 
 
-def fetch_nasa_apod_images(count=3):
+def fetch_nasa_apod_images(images_folder, count=3):
 
     url = 'https://api.nasa.gov/planetary/apod'
 
@@ -20,11 +20,11 @@ def fetch_nasa_apod_images(count=3):
     links = [apod['url'] for apod in response.json()]
 
     for number, link in enumerate(links, start=1):
-        path = 'images/apod{0}{1}'.format(number, get_extension(link))
+        path = '{0}/apod{1}{2}'.format(images_folder, number, get_extension(link))
         download_image(link, path)
 
 
-def fetch_nasa_epic_images():
+def fetch_nasa_epic_images(images_folder):
     url = 'https://api.nasa.gov/EPIC/api/natural'
 
     load_dotenv()
@@ -47,5 +47,5 @@ def fetch_nasa_epic_images():
             photo_info['image'],
             payload['api_key']
         )
-        path = 'images/earth{0}.png'.format(number)
+        path = '{0}/earth{1}.png'.format(images_folder, number)
         download_image(link, path)
