@@ -1,11 +1,11 @@
 import requests
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, unquote
 
 
 def get_extension(link):
     path = urlsplit(link).path
-    return Path(path).suffix
+    return unquote(Path(path).suffix)
 
 
 def download_image(link, path):
