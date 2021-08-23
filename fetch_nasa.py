@@ -34,14 +34,14 @@ def fetch_nasa_epic_images(images_folder, token):
     response = requests.get(url, params=payload)
     response.raise_for_status()
 
-    photos_info = response.json()
+    photos = response.json()
 
-    for number, photo_info in enumerate(photos_info, start=1):
-        datetime_str = photo_info['date']
-        datetime_obj = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
+    for number, photo in enumerate(photos, start=1):
+        photo_datetime = photo['date']
+        parsed_datetime = datetime.strptime(photo_datetime, '%Y-%m-%d %H:%M:%S')
         link = 'https://api.nasa.gov/EPIC/archive/natural/{0}/png/{1}.png?api_key={2}'.format(
-            datetime_obj.strftime('%Y/%m/%d'),
-            photo_info['image'],
+            parsed_datetime.strftime('%Y/%m/%d'),
+            photo['image'],
             payload['api_key']
         )
         path = '{0}/earth{1}.png'.format(images_folder, number)
