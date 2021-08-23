@@ -1,8 +1,8 @@
-import requests
-import os
 from datetime import datetime
-from image_handling import get_extension, download_image
-from dotenv import load_dotenv
+
+import requests
+
+from image_handling import download_image, get_extension
 
 
 def fetch_nasa_apod_images(images_folder, token, count=3):
@@ -39,10 +39,9 @@ def fetch_nasa_epic_images(images_folder, token):
     for number, photo in enumerate(photos, start=1):
         photo_datetime = photo['date']
         parsed_datetime = datetime.strptime(photo_datetime, '%Y-%m-%d %H:%M:%S')
-        link = 'https://api.nasa.gov/EPIC/archive/natural/{0}/png/{1}.png?api_key={2}'.format(
+        link = 'https://api.nasa.gov/EPIC/archive/natural/{0}/png/{1}.png'.format(
             parsed_datetime.strftime('%Y/%m/%d'),
-            photo['image'],
-            payload['api_key']
+            photo['image']
         )
         path = '{0}/earth{1}.png'.format(images_folder, number)
-        download_image(link, path)
+        download_image(link, path, payload)

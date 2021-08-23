@@ -1,6 +1,7 @@
-import requests
 from pathlib import Path
-from urllib.parse import urlsplit, unquote
+from urllib.parse import unquote, urlsplit
+
+import requests
 
 
 def get_extension(link):
@@ -8,11 +9,9 @@ def get_extension(link):
     return unquote(Path(path).suffix)
 
 
-def download_image(link, path):
-    response = requests.get(link)
+def download_image(link, path, params={}):
+    print(params)
+    response = requests.get(link, params=params)
     response.raise_for_status()
-    decoded_response = response.json()
-    if 'error' in decoded_response:
-        raise requests.exceptions.HTTPError(decoded_response['error'])
     with open(path, 'wb') as img:
         img.write(response.content)

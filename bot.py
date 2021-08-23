@@ -1,10 +1,12 @@
-import telegram
 import os
-from pathlib import Path
 import time
+from pathlib import Path
+
+import telegram
+from dotenv import load_dotenv
+
 from fetch_nasa import fetch_nasa_apod_images, fetch_nasa_epic_images
 from fetch_spacex import fetch_spacex_launch
-from dotenv import load_dotenv
 
 
 def upload_images(images_folder, token, chat_id):
@@ -24,8 +26,8 @@ def main():
     images_folder = 'images'
     Path(images_folder).mkdir(parents=True, exist_ok=True)
     load_dotenv()
-    fetch_nasa_apod_images(images_folder, os.environ['NASA_TOKEN'])
     fetch_nasa_epic_images(images_folder, os.environ['NASA_TOKEN'])
+    fetch_nasa_apod_images(images_folder, os.environ['NASA_TOKEN'])
     fetch_spacex_launch(images_folder)
     upload_images(images_folder, os.environ['BOT_TOKEN'], os.environ['CHAT_ID'])
     
