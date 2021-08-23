@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 import time
 from fetch_nasa import fetch_nasa_apod_images, fetch_nasa_epic_images
-from fetch_spacex import fetch_spacex_last_launch
+from fetch_spacex import fetch_spacex_launch
 from dotenv import load_dotenv
 
 
@@ -26,7 +26,7 @@ def main():
     load_dotenv()
     fetch_nasa_apod_images(images_folder, os.environ['NASA_TOKEN'])
     fetch_nasa_epic_images(images_folder, os.environ['NASA_TOKEN'])
-    fetch_spacex_last_launch(images_folder)
+    fetch_spacex_launch(images_folder)
     upload_images(images_folder, os.environ['BOT_TOKEN'], os.environ['CHAT_ID'])
     
 
