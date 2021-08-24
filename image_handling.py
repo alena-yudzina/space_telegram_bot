@@ -9,8 +9,7 @@ def get_extension(link):
     return unquote(Path(path).suffix)
 
 
-def download_image(link, path, params={}):
-    print(params)
+def download_image(link, path, params=None):
     response = requests.get(link, params=params)
     response.raise_for_status()
     with open(path, 'wb') as img:
